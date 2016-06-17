@@ -31,9 +31,8 @@ class Category(models.Model):
 
 
 class LinkCategory(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
-    description = models.CharField(max_length=500)
+    link = models.ForeignKey(UserLink, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
 class Tag(models.Model):
