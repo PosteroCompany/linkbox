@@ -15,30 +15,40 @@ class Link(models.Model):
     date_created = models.DateTimeField()
 
 
-class Category(models.Model):
-    # link = models.ForeignKey(Link, on_delete=models.CASCADE)
-    # link = models.ForeignKey(Link, on_delete=models.CASCADE)
-
-
 class UserLink(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     link = models.ForeignKey(Link, on_delete=models.CASCADE)
     date_created = models.DateTimeField()
     was_seen = models.BooleanField()
     is_favorite = models.BooleanField()
+    is_public = models.BooleanField()
 
 
-#
-# class Question(models.Model):
-#     question_text = models.CharField(max_length=200)
-#     pub_date = models.DateTimeField('date published')
-#
-#     def was_published_recently(self):
-#         now = timezone.now()
-#         return now - datetime.timedelta(days=1) <= self.pub_date <= now
-#     was_published_recently.admin_order_field = 'pub_date'
-#     was_published_recently.boolean = True
-#     was_published_recently.short_description = 'Published recently?'
-#
-#     def __str__(self):
-#         return self.question_text
+class Category(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=500)
+
+
+class LinkCategory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=500)
+
+
+class Tag(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=500)
+
+
+class LinkTag(models.Model):
+    link = models.ForeignKey(UserLink, on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+
+
+class LinkComment(models.Model):
+    target = models.ForeignKey(UserLink, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.CharField(max_length=500)
+    date_created = models.DateTimeField()
