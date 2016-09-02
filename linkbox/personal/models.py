@@ -1,9 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
+
 class UserDetail(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User,
+                             related_name='detail',
+                             on_delete=models.CASCADE)
     bio = models.CharField(max_length=255, blank=True)
     avatar = models.CharField(max_length=255, blank=True)
 
@@ -64,4 +66,5 @@ class LinkComment(models.Model):
     date_created = models.DateTimeField()
 
     def __str__(self):
-        return "{}'s comment on {}".format(self.author.username, self.target.link.title)
+        return "{}'s comment on {}".format(self.author.username,
+                                           self.target.link.title)
